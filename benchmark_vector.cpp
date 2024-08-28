@@ -1,5 +1,4 @@
 #include <benchmark/benchmark.h>
-#include <iostream>
 #include <string>
 
 #ifdef TEST_STL
@@ -16,6 +15,11 @@ using vector = MyVector::vector<T, 20>;
 #include "MyVector.hpp"
 template <typename T>
 using vector = MyVector::vector<T, 15>;
+#endif
+#ifdef TEST_DEQUE
+#include "deque"
+template <typename T>
+using vector = std::deque<T>;
 #endif
 
 namespace {

@@ -1,4 +1,4 @@
-2024-08-28T18:51:53+03:00
+2024-08-28T19:42:52+03:00
 Running ./benchmark-my-vector-1-5
 Run on (12 X 2096 MHz CPU s)
 CPU Caches:
@@ -6,17 +6,17 @@ CPU Caches:
   L1 Instruction 32 KiB (x6)
   L2 Unified 512 KiB (x6)
   L3 Unified 4096 KiB (x1)
-Load Average: 0.43, 0.33, 0.28
+Load Average: 0.60, 0.62, 0.35
 ***WARNING*** Library was built as DEBUG. Timings may be affected.
 ----------------------------------------------------------------------------------
 Benchmark                                        Time             CPU   Iterations
 ----------------------------------------------------------------------------------
-push_back_BM<int, 1000>                      24004 ns        24004 ns        22928
-push_back_BM<int, 100000>                  2595685 ns      2595669 ns          291
-push_back_BM<std::string, 1000, 10>         113982 ns       113974 ns         4838
-push_back_BM<std::string, 100000, 10>     16721820 ns     16720357 ns           47
-push_back_BM<std::string, 1000, 1000>       692318 ns       692310 ns          889
-push_back_BM<std::string, 100000, 1000>   80644345 ns     80645500 ns            7
-access_BM<1000>                               1598 ns         1598 ns       439365
-access_BM<100000>                           163987 ns       163967 ns         4255
-access_BM<1000000>                         1707569 ns      1707547 ns          416
+push_back_BM<int, 1000>                      20608 ns        20607 ns        26484
+push_back_BM<int, 100000>                  2398005 ns      2397962 ns          277
+push_back_BM<std::string, 1000, 10>          88312 ns        88312 ns         6350
+push_back_BM<std::string, 100000, 10>     15421740 ns     15421371 ns           45
+push_back_BM<std::string, 1000, 1000>       742030 ns       742036 ns          695
+push_back_BM<std::string, 100000, 1000>   78957659 ns     78935556 ns            9
+access_BM<1000>                               1690 ns         1690 ns       546175
+access_BM<100000>                           172253 ns       172095 ns         4398
+access_BM<1000000>                         1643508 ns      1643473 ns          488

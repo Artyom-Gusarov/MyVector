@@ -42,10 +42,18 @@ add_executable(
 target_compile_definitions(benchmark-stl-vector PRIVATE TEST_STL)
 target_link_libraries(benchmark-stl-vector benchmark::benchmark)
 
+add_executable(
+        benchmark-deque-as-vector
+        benchmark_vector.cpp
+)
+target_compile_definitions(benchmark-deque-as-vector PRIVATE TEST_DEQUE)
+target_link_libraries(benchmark-deque-as-vector benchmark::benchmark)
+
 # Custom target to run all benchmarks
 add_custom_target(run-all-benchmarks
-        DEPENDS benchmark-my-vector-2 benchmark-my-vector-1-5 benchmark-stl-vector
+        DEPENDS benchmark-my-vector-2 benchmark-my-vector-1-5 benchmark-stl-vector benchmark-deque-as-vector
         COMMAND benchmark-my-vector-2 --benchmark_out=../BM_results/benchmark_my_vector_2.txt --benchmark_out_format=console
         COMMAND benchmark-my-vector-1-5 --benchmark_out=../BM_results/benchmark_my_vector_1_5.txt --benchmark_out_format=console
         COMMAND benchmark-stl-vector --benchmark_out=../BM_results/benchmark_stl_vector.txt --benchmark_out_format=console
+        COMMAND benchmark-deque-as-vector --benchmark_out=../BM_results/benchmark_deque_as_vector.txt --benchmark_out_format=console
 )

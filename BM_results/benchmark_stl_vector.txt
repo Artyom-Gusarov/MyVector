@@ -1,4 +1,4 @@
-2024-08-28T18:52:03+03:00
+2024-08-28T19:43:02+03:00
 Running ./benchmark-stl-vector
 Run on (12 X 2096 MHz CPU s)
 CPU Caches:
@@ -6,17 +6,17 @@ CPU Caches:
   L1 Instruction 32 KiB (x6)
   L2 Unified 512 KiB (x6)
   L3 Unified 4096 KiB (x1)
-Load Average: 0.52, 0.35, 0.28
+Load Average: 0.66, 0.63, 0.36
 ***WARNING*** Library was built as DEBUG. Timings may be affected.
 ----------------------------------------------------------------------------------
 Benchmark                                        Time             CPU   Iterations
 ----------------------------------------------------------------------------------
-push_back_BM<int, 1000>                      20013 ns        20013 ns        35037
-push_back_BM<int, 100000>                  1258397 ns      1258351 ns          576
-push_back_BM<std::string, 1000, 10>          78545 ns        78546 ns         6734
-push_back_BM<std::string, 100000, 10>     10423337 ns     10412136 ns           74
-push_back_BM<std::string, 1000, 1000>       718016 ns       717994 ns          890
-push_back_BM<std::string, 100000, 1000>   74573161 ns     74559713 ns            8
-access_BM<1000>                               2242 ns         2242 ns       311389
-access_BM<100000>                           220314 ns       220308 ns         3110
-access_BM<1000000>                         2165368 ns      2165374 ns          325
+push_back_BM<int, 1000>                      21329 ns        21327 ns        39922
+push_back_BM<int, 100000>                  1201126 ns      1201072 ns          554
+push_back_BM<std::string, 1000, 10>          91968 ns        91967 ns         8020
+push_back_BM<std::string, 100000, 10>     14869190 ns     14869032 ns           69
+push_back_BM<std::string, 1000, 1000>      1160864 ns      1160870 ns          526
+push_back_BM<std::string, 100000, 1000>   78812926 ns     78725538 ns            8
+access_BM<1000>                               2485 ns         2485 ns       258586
+access_BM<100000>                           220087 ns       219839 ns         3228
+access_BM<1000000>                         2134334 ns      2134295 ns          369
