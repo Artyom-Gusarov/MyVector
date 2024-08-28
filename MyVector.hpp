@@ -8,7 +8,7 @@
 #include <utility>
 
 namespace MyVector {
-template <typename T, typename Alloc = std::allocator<T>>
+template <typename T, std::size_t capacity_step = 20, typename Alloc = std::allocator<T>>
 class vector {
 private:
     std::size_t v_capacity;
@@ -45,7 +45,9 @@ private:
         }
         std::size_t new_capacity = 1;
         while (n > new_capacity) {
-            new_capacity *= 2;
+            new_capacity *= capacity_step;
+            new_capacity /= 10;
+            ++new_capacity;
         }
         return new_capacity;
     }

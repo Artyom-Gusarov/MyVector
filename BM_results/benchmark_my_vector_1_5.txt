@@ -1,0 +1,22 @@
+2024-08-28T18:51:53+03:00
+Running ./benchmark-my-vector-1-5
+Run on (12 X 2096 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x6)
+  L1 Instruction 32 KiB (x6)
+  L2 Unified 512 KiB (x6)
+  L3 Unified 4096 KiB (x1)
+Load Average: 0.43, 0.33, 0.28
+***WARNING*** Library was built as DEBUG. Timings may be affected.
+----------------------------------------------------------------------------------
+Benchmark                                        Time             CPU   Iterations
+----------------------------------------------------------------------------------
+push_back_BM<int, 1000>                      24004 ns        24004 ns        22928
+push_back_BM<int, 100000>                  2595685 ns      2595669 ns          291
+push_back_BM<std::string, 1000, 10>         113982 ns       113974 ns         4838
+push_back_BM<std::string, 100000, 10>     16721820 ns     16720357 ns           47
+push_back_BM<std::string, 1000, 1000>       692318 ns       692310 ns          889
+push_back_BM<std::string, 100000, 1000>   80644345 ns     80645500 ns            7
+access_BM<1000>                               1598 ns         1598 ns       439365
+access_BM<100000>                           163987 ns       163967 ns         4255
+access_BM<1000000>                         1707569 ns      1707547 ns          416

@@ -1,0 +1,22 @@
+2024-08-28T18:52:03+03:00
+Running ./benchmark-stl-vector
+Run on (12 X 2096 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x6)
+  L1 Instruction 32 KiB (x6)
+  L2 Unified 512 KiB (x6)
+  L3 Unified 4096 KiB (x1)
+Load Average: 0.52, 0.35, 0.28
+***WARNING*** Library was built as DEBUG. Timings may be affected.
+----------------------------------------------------------------------------------
+Benchmark                                        Time             CPU   Iterations
+----------------------------------------------------------------------------------
+push_back_BM<int, 1000>                      20013 ns        20013 ns        35037
+push_back_BM<int, 100000>                  1258397 ns      1258351 ns          576
+push_back_BM<std::string, 1000, 10>          78545 ns        78546 ns         6734
+push_back_BM<std::string, 100000, 10>     10423337 ns     10412136 ns           74
+push_back_BM<std::string, 1000, 1000>       718016 ns       717994 ns          890
+push_back_BM<std::string, 100000, 1000>   74573161 ns     74559713 ns            8
+access_BM<1000>                               2242 ns         2242 ns       311389
+access_BM<100000>                           220314 ns       220308 ns         3110
+access_BM<1000000>                         2165368 ns      2165374 ns          325
