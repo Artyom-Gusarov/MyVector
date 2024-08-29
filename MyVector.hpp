@@ -2,13 +2,17 @@
 #define VECTOR_HPP
 
 #include <cmath>
+#include <cstring>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <utility>
 
 namespace MyVector {
-template <typename T, std::size_t capacity_step = 20, typename Alloc = std::allocator<T>>
+template <
+    typename T,
+    std::size_t capacity_step = 20,
+    typename Alloc = std::allocator<T>>
 class vector {
 private:
     std::size_t v_capacity;
@@ -79,13 +83,30 @@ private:
         T *new_data = safe_allocate(new_capacity);
         std::size_t new_size = 0;
 
-        for (; new_size < v_size; ++new_size) {
-            if (data + new_size ==
-                save_ptr) {  // check if ptr point to old data
-                save_ptr = new_data + new_size;
+        if constexpr (std::is_trivially_copyable_v<T>) {
+            if (v_size > 0) {
+                std::memcpy(new_data, data, v_size * sizeof(T));
             }
-            new (new_data + new_size) T(std::move(data[new_size]));
+            new_size = v_size;
+            //            if (save_ptr >= data && save_ptr < data + v_size) {
+            //                save_ptr = new_data + (save_ptr - data);
+            //            } potential UB
+            for (std::size_t i = 0; i < v_size; ++i) {
+                if (data + i == save_ptr) {  // check if ptr point to old data
+                    save_ptr = new_data + i;
+                    break;
+                }
+            }
+        } else {
+            for (; new_size < v_size; ++new_size) {
+                if (data + new_size ==
+                    save_ptr) {  // check if ptr point to old data
+                    save_ptr = new_data + new_size;
+                }
+                new (new_data + new_size) T(std::move(data[new_size]));
+            }
         }
+
         clear_dealloc_data();
         v_size = new_size;
         v_capacity = new_capacity;
@@ -138,8 +159,15 @@ public:
         : v_capacity(calc_capacity(other.v_size)),
           data(safe_allocate(v_capacity)),
           v_size(0) {
-        for (; v_size < other.v_size; ++v_size) {
-            new (data + v_size) T(other[v_size]);
+        if constexpr (std::is_trivially_copyable_v<T>) {
+            if (other.v_size > 0) {
+                std::memcpy(data, other.data, other.v_size * sizeof(T));
+            }
+            v_size = other.v_size;
+        } else {
+            for (; v_size < other.v_size; ++v_size) {
+                new (data + v_size) T(other[v_size]);
+            }
         }
     }
 
@@ -160,20 +188,40 @@ public:
             while (other.v_size < v_size) {
                 pop_back();
             }
-            for (std::size_t i = 0; i < v_size; ++i) {
-                data[i] = other[i];
+            if constexpr (std::is_trivially_copyable_v<T>) {
+                if (other.v_size > 0) {
+                    std::memcpy(data, other.data, other.v_size * sizeof(T));
+                }
+            } else {
+                for (std::size_t i = 0; i < v_size; ++i) {
+                    data[i] = other[i];
+                }
             }
         } else if (other.v_size > v_capacity) {
             reserve_empty(other.v_size);
-            for (v_size = 0; v_size < other.v_size; ++v_size) {
-                new (data + v_size) T(other[v_size]);
+            if constexpr (std::is_trivially_copyable_v<T>) {
+                if (other.v_size > 0) {
+                    std::memcpy(data, other.data, other.v_size * sizeof(T));
+                }
+                v_size = other.v_size;
+            } else {
+                for (v_size = 0; v_size < other.v_size; ++v_size) {
+                    new (data + v_size) T(other[v_size]);
+                }
             }
         } else {
-            for (std::size_t i = 0; i < v_size; ++i) {
-                data[i] = other[i];
-            }
-            for (; v_size < other.v_size; ++v_size) {
-                new (data + v_size) T(other[v_size]);
+            if constexpr (std::is_trivially_copyable_v<T>) {
+                if (other.v_size > 0) {
+                    std::memcpy(data, other.data, other.v_size * sizeof(T));
+                }
+                v_size = other.v_size;
+            } else {
+                for (std::size_t i = 0; i < v_size; ++i) {
+                    data[i] = other[i];
+                }
+                for (; v_size < other.v_size; ++v_size) {
+                    new (data + v_size) T(other[v_size]);
+                }
             }
         }
 
@@ -220,9 +268,17 @@ public:
         T *new_data = safe_allocate(new_capacity);
         std::size_t new_size = 0;
 
-        for (; new_size < v_size; ++new_size) {
-            new (new_data + new_size) T(std::move(data[new_size]));
+        if constexpr (std::is_trivially_copyable_v<T>) {
+            if (v_size > 0) {
+                std::memcpy(new_data, data, v_size * sizeof(T));
+            }
+            new_size = v_size;
+        } else {
+            for (; new_size < v_size; ++new_size) {
+                new (new_data + new_size) T(std::move(data[new_size]));
+            }
         }
+
         clear_dealloc_data();
         v_size = new_size;
         v_capacity = new_capacity;
@@ -231,19 +287,35 @@ public:
 
     void push_back(const T &t) & {
         if (v_size < v_capacity) {
-            new (data + v_size++) T(t);
+            if constexpr (std::is_trivially_copyable_v<T>) {
+                std::memcpy(data + v_size++, &t, sizeof(T));
+            } else {
+                new (data + v_size++) T(t);
+            }
         } else {
             const T *ptr_t = save_reserve(v_size + 1, &t);
-            new (data + v_size++) T(*ptr_t);
+            if constexpr (std::is_trivially_copyable_v<T>) {
+                std::memcpy(data + v_size++, ptr_t, sizeof(T));
+            } else {
+                new (data + v_size++) T(*ptr_t);
+            }
         }
     }
 
     void push_back(T &&t) & {
         if (v_size < v_capacity) {
-            new (data + v_size++) T(std::move(t));
+            if constexpr (std::is_trivially_copyable_v<T>) {
+                std::memcpy(data + v_size++, &t, sizeof(T));
+            } else {
+                new (data + v_size++) T(std::move(t));
+            }
         } else {
             T *ptr_t = save_reserve(v_size + 1, &t);
-            new (data + v_size++) T(std::move(*ptr_t));
+            if constexpr (std::is_trivially_copyable_v<T>) {
+                std::memcpy(data + v_size++, ptr_t, sizeof(T));
+            } else {
+                new (data + v_size++) T(std::move(*ptr_t));
+            }
         }
     }
 
@@ -325,6 +397,6 @@ public:
         clear_dealloc_data();
     }
 };
-}  // namespace vector_naive
+}  // namespace MyVector
 
 #endif
