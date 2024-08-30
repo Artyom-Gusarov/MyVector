@@ -1,0 +1,24 @@
+2024-08-30T18:32:59+03:00
+Running ./benchmark-my-chunk-vector
+Run on (12 X 2096 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x6)
+  L1 Instruction 32 KiB (x6)
+  L2 Unified 512 KiB (x6)
+  L3 Unified 4096 KiB (x1)
+Load Average: 0.93, 0.62, 0.56
+***WARNING*** Library was built as DEBUG. Timings may be affected.
+----------------------------------------------------------------------------------------
+Benchmark                                              Time             CPU   Iterations
+----------------------------------------------------------------------------------------
+push_back_BM<int, 1000>                             7059 ns         7059 ns        87831
+push_back_BM<NonTriviallyCopyableInt, 1000>         6455 ns         6455 ns       115766
+push_back_BM<int, 100000>                         563162 ns       563161 ns         1190
+push_back_BM<NonTriviallyCopyableInt, 100000>     582241 ns       582247 ns         1187
+push_back_BM<std::string, 1000, 10>                29142 ns        29142 ns        23977
+push_back_BM<std::string, 100000, 10>            2926970 ns      2926852 ns          239
+push_back_BM<std::string, 1000, 1000>             512209 ns       512217 ns         1022
+push_back_BM<std::string, 100000, 1000>         59942544 ns     59943191 ns           11
+access_BM<1000>                                     2278 ns         2278 ns       309931
+access_BM<100000>                                 257410 ns       257411 ns         2757
+access_BM<1000000>                               2741328 ns      2741345 ns          262

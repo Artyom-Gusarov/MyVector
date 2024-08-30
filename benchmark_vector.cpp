@@ -7,12 +7,12 @@ template <typename T>
 using vector = std::vector<T>;
 #endif
 #ifdef TEST_MY_2
-#include "MyVector.hpp"
+#include "vector.hpp"
 template <typename T>
 using vector = MyVector::vector<T, 20>;
 #endif
 #ifdef TEST_MY_5
-#include "MyVector.hpp"
+#include "vector.hpp"
 template <typename T>
 using vector = MyVector::vector<T, 50>;
 #endif
@@ -20,6 +20,11 @@ using vector = MyVector::vector<T, 50>;
 #include "deque"
 template <typename T>
 using vector = std::deque<T>;
+#endif
+#ifdef TEST_CHUNK_VECTOR
+#include "vector_like_container.hpp"
+template <typename T>
+using vector = MyVector::chunk_vector<T>;
 #endif
 
 namespace {

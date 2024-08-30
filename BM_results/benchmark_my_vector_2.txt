@@ -1,4 +1,4 @@
-2024-08-29T11:49:18+03:00
+2024-08-30T18:32:15+03:00
 Running ./benchmark-my-vector-2
 Run on (12 X 2096 MHz CPU s)
 CPU Caches:
@@ -6,19 +6,19 @@ CPU Caches:
   L1 Instruction 32 KiB (x6)
   L2 Unified 512 KiB (x6)
   L3 Unified 4096 KiB (x1)
-Load Average: 0.89, 0.44, 0.23
+Load Average: 0.61, 0.52, 0.52
 ***WARNING*** Library was built as DEBUG. Timings may be affected.
 ----------------------------------------------------------------------------------------
 Benchmark                                              Time             CPU   Iterations
 ----------------------------------------------------------------------------------------
-push_back_BM<int, 1000>                            14368 ns        14368 ns        40870
-push_back_BM<NonTriviallyCopyableInt, 1000>        14261 ns        14261 ns        47970
-push_back_BM<int, 100000>                        1181071 ns      1181075 ns          529
-push_back_BM<NonTriviallyCopyableInt, 100000>    1601120 ns      1600751 ns          425
-push_back_BM<std::string, 1000, 10>                80390 ns        80391 ns         6898
-push_back_BM<std::string, 100000, 10>           10176844 ns     10176685 ns           66
-push_back_BM<std::string, 1000, 1000>             758644 ns       758650 ns          734
-push_back_BM<std::string, 100000, 1000>         72081065 ns     72017860 ns           10
-access_BM<1000>                                     1576 ns         1576 ns       437051
-access_BM<100000>                                 160673 ns       160673 ns         4460
-access_BM<1000000>                               1630981 ns      1630920 ns          430
+push_back_BM<int, 1000>                            11735 ns        11735 ns        53885
+push_back_BM<NonTriviallyCopyableInt, 1000>        12165 ns        12165 ns        59578
+push_back_BM<int, 100000>                        1030098 ns      1030103 ns          537
+push_back_BM<NonTriviallyCopyableInt, 100000>    1373435 ns      1373398 ns          504
+push_back_BM<std::string, 1000, 10>                77569 ns        77568 ns         8230
+push_back_BM<std::string, 100000, 10>           12195103 ns     12195167 ns           48
+push_back_BM<std::string, 1000, 1000>             619182 ns       619174 ns          910
+push_back_BM<std::string, 100000, 1000>         66335144 ns     65985280 ns           10
+access_BM<1000>                                     1264 ns         1264 ns       542013
+access_BM<100000>                                 127584 ns       127468 ns         5472
+access_BM<1000000>                               1294420 ns      1294425 ns          528

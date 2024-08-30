@@ -1,9 +1,14 @@
 #include <gtest/gtest.h>
 
 #ifdef TEST_MY
-#include "MyVector.hpp"
+#include "vector.hpp"
 template <typename T>
 using vector = MyVector::vector<T>;
+#endif
+#ifdef TEST_CHUNK_VECTOR
+#include "vector_like_container.hpp"
+template <typename T>
+using vector = MyVector::chunk_vector<T>;
 #endif
 
 namespace {
@@ -72,13 +77,15 @@ TEST_F(VectorTest, many_push_back) {
     for (int i = 0; i < n; ++i) {
         EXPECT_EQ(v[i], i);
     }
+    EXPECT_EQ(v.size(), 1000);
     const int m = 10000;
     for (int i = n; i < m; ++i) {
         v.push_back(i);
     }
-    for (int i = n; i < m; ++i) {
+    for (int i = 0; i < m; ++i) {
         EXPECT_EQ(v[i], i);
     }
+    EXPECT_EQ(v.size(), 10000);
 }
 }  // namespace
 
