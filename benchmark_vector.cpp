@@ -21,7 +21,12 @@ using vector = MyVector::vector<T, 50>;
 template <typename T>
 using vector = std::deque<T>;
 #endif
-#ifdef TEST_CHUNK_VECTOR
+#ifdef TEST_CHUNK_VECTOR_1024
+#include "vector_like_container.hpp"
+template <typename T>
+using vector = MyVector::chunk_vector<T, 1024>;
+#endif
+#ifdef TEST_CHUNK_VECTOR_AUTO
 #include "vector_like_container.hpp"
 template <typename T>
 using vector = MyVector::chunk_vector<T>;
@@ -56,17 +61,41 @@ private:
     int value_;
 };
 
+template <std::size_t size>
+class BigSizeClass {
+public:
+    char data[size];
+};
+
+template <std::size_t size>
+class NonTriviallyCopyableBigSizeClass {
+public:
+    char data[size];
+
+        NonTriviallyCopyableBigSizeClass() {
+        }
+
+        NonTriviallyCopyableBigSizeClass(const NonTriviallyCopyableBigSizeClass &other) {
+            for (std::size_t i = 0; i < size; ++i) {
+                data[i] = other.data[i];
+            }
+        }
+
+        NonTriviallyCopyableBigSizeClass &operator=(const NonTriviallyCopyableBigSizeClass &other) {
+            if (this != &other) {
+                for (std::size_t i = 0; i < size; ++i) {
+                    data[i] = other.data[i];
+                }
+            }
+            return *this;
+        }
+};
+
 template <
     typename T = int,
-    std::size_t iterations = 1000,
-    std::size_t size = 100>
+    std::size_t iterations = 1000>
 void push_back_BM(benchmark::State &state) {
-    T obj;
-    if constexpr (std::is_same_v<T, std::string>) {
-        obj = std::string(size, 'a');
-    } else if constexpr (std::is_same_v<T, int>) {
-        obj = 12345;
-    }
+    T obj = T();
 
     for (auto _ : state) {
         vector<T> v;
@@ -77,9 +106,9 @@ void push_back_BM(benchmark::State &state) {
     }
 }
 
-template <std::size_t size = 1000>
+template <typename T = int, std::size_t size = 1000>
 void access_BM(benchmark::State &state) {
-    vector<int> v(size, 12345);
+    vector<T> v(size);
 
     for (auto _ : state) {
         for (std::size_t i = 0; i < size; ++i) {
@@ -94,12 +123,22 @@ BENCHMARK(push_back_BM<int, 1000>);
 BENCHMARK(push_back_BM<NonTriviallyCopyableInt, 1000>);
 BENCHMARK(push_back_BM<int, 100000>);
 BENCHMARK(push_back_BM<NonTriviallyCopyableInt, 100000>);
-BENCHMARK(push_back_BM<std::string, 1000, 10>);
-BENCHMARK(push_back_BM<std::string, 100000, 10>);
-BENCHMARK(push_back_BM<std::string, 1000, 1000>);
-BENCHMARK(push_back_BM<std::string, 100000, 1000>);
-BENCHMARK(access_BM<1000>);
-BENCHMARK(access_BM<100000>);
-BENCHMARK(access_BM<1000000>);
+
+BENCHMARK(push_back_BM<BigSizeClass<512>, 1000>);
+BENCHMARK(push_back_BM<NonTriviallyCopyableBigSizeClass<512>, 1000>);
+BENCHMARK(push_back_BM<BigSizeClass<512>, 100000>);
+BENCHMARK(push_back_BM<NonTriviallyCopyableBigSizeClass<512>, 100000>);
+
+BENCHMARK(push_back_BM<BigSizeClass<1024>, 1000>);
+BENCHMARK(push_back_BM<NonTriviallyCopyableBigSizeClass<1024>, 1000>);
+BENCHMARK(push_back_BM<BigSizeClass<1024>, 100000>);
+BENCHMARK(push_back_BM<NonTriviallyCopyableBigSizeClass<1024>, 100000>);
+
+BENCHMARK(access_BM<int, 1000>);
+BENCHMARK(access_BM<int, 100000>);
+BENCHMARK(access_BM<BigSizeClass<512>, 1000>);
+BENCHMARK(access_BM<BigSizeClass<512>, 100000>);
+BENCHMARK(access_BM<BigSizeClass<1024>, 1000>);
+BENCHMARK(access_BM<BigSizeClass<1024>, 100000>);
 
 BENCHMARK_MAIN();

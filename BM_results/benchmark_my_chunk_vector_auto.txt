@@ -1,0 +1,30 @@
+2024-08-30T21:00:46+03:00
+Running ./benchmark-my-chunk-vector-auto
+Run on (12 X 2096 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x6)
+  L1 Instruction 32 KiB (x6)
+  L2 Unified 512 KiB (x6)
+  L3 Unified 4096 KiB (x1)
+Load Average: 0.93, 0.53, 0.36
+-------------------------------------------------------------------------------------------------------
+Benchmark                                                             Time             CPU   Iterations
+-------------------------------------------------------------------------------------------------------
+push_back_BM<int, 1000>                                            7097 ns         7096 ns        86345
+push_back_BM<NonTriviallyCopyableInt, 1000>                        6050 ns         6050 ns       109896
+push_back_BM<int, 100000>                                        549446 ns       549455 ns         1185
+push_back_BM<NonTriviallyCopyableInt, 100000>                    567413 ns       567408 ns         1217
+push_back_BM<BigSizeClass<512>, 1000>                            167855 ns       167852 ns         4089
+push_back_BM<NonTriviallyCopyableBigSizeClass<512>, 1000>        924036 ns       924018 ns          744
+push_back_BM<BigSizeClass<512>, 100000>                        19320892 ns     19320736 ns           36
+push_back_BM<NonTriviallyCopyableBigSizeClass<512>, 100000>    93473154 ns     93472812 ns            8
+push_back_BM<BigSizeClass<1024>, 1000>                           311964 ns       311954 ns         2271
+push_back_BM<NonTriviallyCopyableBigSizeClass<1024>, 1000>      1843951 ns      1843963 ns          387
+push_back_BM<BigSizeClass<1024>, 100000>                       34988970 ns     34988835 ns           20
+push_back_BM<NonTriviallyCopyableBigSizeClass<1024>, 100000>  186217509 ns    186216525 ns            4
+access_BM<int, 1000>                                               2311 ns         2311 ns       308851
+access_BM<int, 100000>                                           261168 ns       261165 ns         2790
+access_BM<BigSizeClass<512>, 1000>                                79666 ns        79667 ns         8540
+access_BM<BigSizeClass<512>, 100000>                            9874920 ns      9874989 ns           65
+access_BM<BigSizeClass<1024>, 1000>                              157894 ns       157883 ns         4008
+access_BM<BigSizeClass<1024>, 100000>                          18090398 ns     18089544 ns           39

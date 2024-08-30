@@ -4,7 +4,7 @@
 namespace MyVector {
 template <
     typename T,
-    std::size_t chunk_size = 1024,
+    std::size_t chunk_size = 4096 / sizeof(T),
     typename Alloc = std::allocator<T>>
 class chunk_vector {
 private:
@@ -16,7 +16,13 @@ public:
     chunk_vector() : v_size(0), v_capacity(0) {
     }
 
-    chunk_vector(std::size_t n, const T& t) : v_size(0), v_capacity(0) {
+    explicit chunk_vector(std::size_t n) : v_size(0), v_capacity(0) {
+        for (std::size_t i = 0; i < n; ++i) {
+            push_back(T());
+        }
+    }
+
+    chunk_vector(std::size_t n, const T &t) : v_size(0), v_capacity(0) {
         for (std::size_t i = 0; i < n; ++i) {
             push_back(t);
         }

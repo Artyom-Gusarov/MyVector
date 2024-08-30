@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
-#set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
+#set(CMAKE_BUILD_TYPE Debug)
 
 project(MyVector)
 
@@ -53,11 +53,18 @@ target_compile_definitions(benchmark-deque-as-vector PRIVATE TEST_DEQUE)
 target_link_libraries(benchmark-deque-as-vector benchmark::benchmark)
 
 add_executable(
-        benchmark-my-chunk-vector
+        benchmark-my-chunk-vector-1024
         benchmark_vector.cpp
 )
-target_compile_definitions(benchmark-my-chunk-vector PRIVATE TEST_CHUNK_VECTOR)
-target_link_libraries(benchmark-my-chunk-vector benchmark::benchmark)
+target_compile_definitions(benchmark-my-chunk-vector-1024 PRIVATE TEST_CHUNK_VECTOR_1024)
+target_link_libraries(benchmark-my-chunk-vector-1024 benchmark::benchmark)
+
+add_executable(
+        benchmark-my-chunk-vector-auto
+        benchmark_vector.cpp
+)
+target_compile_definitions(benchmark-my-chunk-vector-auto PRIVATE TEST_CHUNK_VECTOR_AUTO)
+target_link_libraries(benchmark-my-chunk-vector-auto benchmark::benchmark)
 
 add_executable(
         test-my-vector
@@ -75,10 +82,11 @@ target_link_libraries(test-my-chunk-vector gtest_main)
 
 # Custom target to run all benchmarks
 add_custom_target(run-all-benchmarks
-        DEPENDS benchmark-my-vector-2 benchmark-my-vector-5 benchmark-stl-vector benchmark-deque-as-vector benchmark-my-chunk-vector
+        DEPENDS benchmark-my-vector-2 benchmark-my-vector-5 benchmark-stl-vector benchmark-deque-as-vector benchmark-my-chunk-vector-1024 benchmark-my-chunk-vector-auto
         COMMAND benchmark-my-vector-2 --benchmark_out=../BM_results/benchmark_my_vector_2.txt --benchmark_out_format=console
-        COMMAND benchmark-stl-vector --benchmark_out=../BM_results/benchmark_stl_vector.txt --benchmark_out_format=console
         COMMAND benchmark-my-vector-5 --benchmark_out=../BM_results/benchmark_my_vector_5.txt --benchmark_out_format=console
+        COMMAND benchmark-stl-vector --benchmark_out=../BM_results/benchmark_stl_vector.txt --benchmark_out_format=console
+        COMMAND benchmark-my-chunk-vector-1024 --benchmark_out=../BM_results/benchmark_my_chunk_vector_1024.txt --benchmark_out_format=console
+        COMMAND benchmark-my-chunk-vector-auto --benchmark_out=../BM_results/benchmark_my_chunk_vector_auto.txt --benchmark_out_format=console
         COMMAND benchmark-deque-as-vector --benchmark_out=../BM_results/benchmark_deque_as_vector.txt --benchmark_out_format=console
-        COMMAND benchmark-my-chunk-vector --benchmark_out=../BM_results/benchmark_my_chunk_vector.txt --benchmark_out_format=console
 )

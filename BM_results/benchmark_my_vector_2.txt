@@ -1,4 +1,4 @@
-2024-08-30T18:32:15+03:00
+2024-08-30T20:59:35+03:00
 Running ./benchmark-my-vector-2
 Run on (12 X 2096 MHz CPU s)
 CPU Caches:
@@ -6,19 +6,25 @@ CPU Caches:
   L1 Instruction 32 KiB (x6)
   L2 Unified 512 KiB (x6)
   L3 Unified 4096 KiB (x1)
-Load Average: 0.61, 0.52, 0.52
-***WARNING*** Library was built as DEBUG. Timings may be affected.
-----------------------------------------------------------------------------------------
-Benchmark                                              Time             CPU   Iterations
-----------------------------------------------------------------------------------------
-push_back_BM<int, 1000>                            11735 ns        11735 ns        53885
-push_back_BM<NonTriviallyCopyableInt, 1000>        12165 ns        12165 ns        59578
-push_back_BM<int, 100000>                        1030098 ns      1030103 ns          537
-push_back_BM<NonTriviallyCopyableInt, 100000>    1373435 ns      1373398 ns          504
-push_back_BM<std::string, 1000, 10>                77569 ns        77568 ns         8230
-push_back_BM<std::string, 100000, 10>           12195103 ns     12195167 ns           48
-push_back_BM<std::string, 1000, 1000>             619182 ns       619174 ns          910
-push_back_BM<std::string, 100000, 1000>         66335144 ns     65985280 ns           10
-access_BM<1000>                                     1264 ns         1264 ns       542013
-access_BM<100000>                                 127584 ns       127468 ns         5472
-access_BM<1000000>                               1294420 ns      1294425 ns          528
+Load Average: 0.65, 0.38, 0.30
+-------------------------------------------------------------------------------------------------------
+Benchmark                                                             Time             CPU   Iterations
+-------------------------------------------------------------------------------------------------------
+push_back_BM<int, 1000>                                           10818 ns        10818 ns        58058
+push_back_BM<NonTriviallyCopyableInt, 1000>                       11671 ns        11671 ns        64092
+push_back_BM<int, 100000>                                       1036335 ns      1036284 ns          647
+push_back_BM<NonTriviallyCopyableInt, 100000>                   1269765 ns      1269772 ns          499
+push_back_BM<BigSizeClass<512>, 1000>                            525126 ns       525102 ns         1237
+push_back_BM<NonTriviallyCopyableBigSizeClass<512>, 1000>       1960331 ns      1960303 ns          363
+push_back_BM<BigSizeClass<512>, 100000>                        58466423 ns     57709370 ns           10
+push_back_BM<NonTriviallyCopyableBigSizeClass<512>, 100000>   217803736 ns    217805067 ns            3
+push_back_BM<BigSizeClass<1024>, 1000>                          1185708 ns      1185714 ns          674
+push_back_BM<NonTriviallyCopyableBigSizeClass<1024>, 1000>      4054760 ns      4054701 ns          161
+push_back_BM<BigSizeClass<1024>, 100000>                       95220540 ns     95219343 ns            7
+push_back_BM<NonTriviallyCopyableBigSizeClass<1024>, 100000>  445138759 ns    445006850 ns            2
+access_BM<int, 1000>                                               1511 ns         1511 ns       462135
+access_BM<int, 100000>                                           151013 ns       151002 ns         4644
+access_BM<BigSizeClass<512>, 1000>                                61788 ns        61788 ns        11180
+access_BM<BigSizeClass<512>, 100000>                            6833808 ns      6833599 ns          103
+access_BM<BigSizeClass<1024>, 1000>                              119580 ns       119580 ns         5994
+access_BM<BigSizeClass<1024>, 100000>                          12128203 ns     11972633 ns           58
