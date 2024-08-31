@@ -72,28 +72,30 @@ class NonTriviallyCopyableBigSizeClass {
 public:
     char data[size];
 
-        NonTriviallyCopyableBigSizeClass() {
-        }
+    NonTriviallyCopyableBigSizeClass() {
+    }
 
-        NonTriviallyCopyableBigSizeClass(const NonTriviallyCopyableBigSizeClass &other) {
+    NonTriviallyCopyableBigSizeClass(
+        const NonTriviallyCopyableBigSizeClass &other
+    ) {
+        for (std::size_t i = 0; i < size; ++i) {
+            data[i] = other.data[i];
+        }
+    }
+
+    NonTriviallyCopyableBigSizeClass &operator=(
+        const NonTriviallyCopyableBigSizeClass &other
+    ) {
+        if (this != &other) {
             for (std::size_t i = 0; i < size; ++i) {
                 data[i] = other.data[i];
             }
         }
-
-        NonTriviallyCopyableBigSizeClass &operator=(const NonTriviallyCopyableBigSizeClass &other) {
-            if (this != &other) {
-                for (std::size_t i = 0; i < size; ++i) {
-                    data[i] = other.data[i];
-                }
-            }
-            return *this;
-        }
+        return *this;
+    }
 };
 
-template <
-    typename T = int,
-    std::size_t iterations = 1000>
+template <typename T = int, std::size_t iterations = 1000>
 void push_back_BM(benchmark::State &state) {
     T obj = T();
 
@@ -113,6 +115,18 @@ void access_BM(benchmark::State &state) {
     for (auto _ : state) {
         for (std::size_t i = 0; i < size; ++i) {
             benchmark::DoNotOptimize(v[i]);
+        }
+    }
+}
+
+template <typename T = int, std::size_t size = 1000>
+void random_access_BM(benchmark::State &state) {
+    vector<T> v(size);
+
+    for (auto _ : state) {
+        for (std::size_t i = 0; i < size; ++i) {
+            benchmark::DoNotOptimize(v[i]);
+            benchmark::DoNotOptimize(v[size - 1 - i]);
         }
     }
 }
@@ -140,5 +154,12 @@ BENCHMARK(access_BM<BigSizeClass<512>, 1000>);
 BENCHMARK(access_BM<BigSizeClass<512>, 100000>);
 BENCHMARK(access_BM<BigSizeClass<1024>, 1000>);
 BENCHMARK(access_BM<BigSizeClass<1024>, 100000>);
+
+BENCHMARK(random_access_BM<int, 1000>);
+BENCHMARK(random_access_BM<int, 100000>);
+BENCHMARK(random_access_BM<BigSizeClass<512>, 1000>);
+BENCHMARK(random_access_BM<BigSizeClass<512>, 100000>);
+BENCHMARK(random_access_BM<BigSizeClass<1024>, 1000>);
+BENCHMARK(random_access_BM<BigSizeClass<1024>, 100000>);
 
 BENCHMARK_MAIN();

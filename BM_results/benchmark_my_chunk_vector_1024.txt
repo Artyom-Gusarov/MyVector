@@ -1,4 +1,4 @@
-2024-08-30T21:00:29+03:00
+2024-08-31T10:54:40+03:00
 Running ./benchmark-my-chunk-vector-1024
 Run on (12 X 2096 MHz CPU s)
 CPU Caches:
@@ -6,25 +6,31 @@ CPU Caches:
   L1 Instruction 32 KiB (x6)
   L2 Unified 512 KiB (x6)
   L3 Unified 4096 KiB (x1)
-Load Average: 0.90, 0.50, 0.34
+Load Average: 0.96, 0.58, 0.28
 -------------------------------------------------------------------------------------------------------
 Benchmark                                                             Time             CPU   Iterations
 -------------------------------------------------------------------------------------------------------
-push_back_BM<int, 1000>                                            6627 ns         6627 ns        94993
-push_back_BM<NonTriviallyCopyableInt, 1000>                        5892 ns         5891 ns       118148
-push_back_BM<int, 100000>                                        539612 ns       539604 ns         1249
-push_back_BM<NonTriviallyCopyableInt, 100000>                    589045 ns       589052 ns         1197
-push_back_BM<BigSizeClass<512>, 1000>                            319022 ns       319024 ns         2301
-push_back_BM<NonTriviallyCopyableBigSizeClass<512>, 1000>       1052472 ns      1052461 ns          662
-push_back_BM<BigSizeClass<512>, 100000>                        33857566 ns     33856509 ns           23
-push_back_BM<NonTriviallyCopyableBigSizeClass<512>, 100000>   109617320 ns    109616733 ns            6
-push_back_BM<BigSizeClass<1024>, 1000>                           634431 ns       634418 ns         1075
-push_back_BM<NonTriviallyCopyableBigSizeClass<1024>, 1000>      2174878 ns      2174861 ns          322
-push_back_BM<BigSizeClass<1024>, 100000>                       79354213 ns     79350745 ns           11
-push_back_BM<NonTriviallyCopyableBigSizeClass<1024>, 100000>  218735539 ns    218733300 ns            3
-access_BM<int, 1000>                                               2253 ns         2254 ns       310731
-access_BM<int, 100000>                                           252446 ns       252430 ns         2754
-access_BM<BigSizeClass<512>, 1000>                                61567 ns        61568 ns        11575
-access_BM<BigSizeClass<512>, 100000>                            7448349 ns      7448209 ns           93
-access_BM<BigSizeClass<1024>, 1000>                              128256 ns       128254 ns         4791
-access_BM<BigSizeClass<1024>, 100000>                          14565075 ns     14564991 ns           53
+push_back_BM<int, 1000>                                            8785 ns         8785 ns        76538
+push_back_BM<NonTriviallyCopyableInt, 1000>                        7134 ns         7134 ns        98117
+push_back_BM<int, 100000>                                        679304 ns       679276 ns         1056
+push_back_BM<NonTriviallyCopyableInt, 100000>                    659661 ns       659664 ns          793
+push_back_BM<BigSizeClass<512>, 1000>                            406596 ns       406598 ns         1760
+push_back_BM<NonTriviallyCopyableBigSizeClass<512>, 1000>       1349676 ns      1349655 ns          528
+push_back_BM<BigSizeClass<512>, 100000>                        74715466 ns     74714290 ns           10
+push_back_BM<NonTriviallyCopyableBigSizeClass<512>, 100000>   146770650 ns    146768400 ns            4
+push_back_BM<BigSizeClass<1024>, 1000>                           753199 ns       753203 ns          879
+push_back_BM<NonTriviallyCopyableBigSizeClass<1024>, 1000>      2667505 ns      2667517 ns          266
+push_back_BM<BigSizeClass<1024>, 100000>                       74638466 ns     74637513 ns            8
+push_back_BM<NonTriviallyCopyableBigSizeClass<1024>, 100000>  264847446 ns    264844700 ns            3
+access_BM<int, 1000>                                               2797 ns         2794 ns       247259
+access_BM<int, 100000>                                           311080 ns       311073 ns         2228
+access_BM<BigSizeClass<512>, 1000>                                70005 ns        70004 ns         9849
+access_BM<BigSizeClass<512>, 100000>                            7819796 ns      7819640 ns           89
+access_BM<BigSizeClass<1024>, 1000>                              132769 ns       132768 ns         5005
+access_BM<BigSizeClass<1024>, 100000>                          13802386 ns     13802186 ns           50
+random_access_BM<int, 1000>                                        5249 ns         5249 ns       100000
+random_access_BM<int, 100000>                                    613491 ns       613494 ns         1226
+random_access_BM<BigSizeClass<512>, 1000>                        163684 ns       163682 ns         4504
+random_access_BM<BigSizeClass<512>, 100000>                    20262842 ns     20263018 ns           33
+random_access_BM<BigSizeClass<1024>, 1000>                       260810 ns       260811 ns         2817
+random_access_BM<BigSizeClass<1024>, 100000>                   33616344 ns     33585909 ns           22
